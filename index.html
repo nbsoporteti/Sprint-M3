@@ -21,15 +21,27 @@
   <main>
     <div class="container">
       <h1>Lista de Productos</h1>
-      <div class="row" id="productos"></div>
+      
+      <!-- Fila para los productos y el carrito -->
+      <div class="row">
+        <!-- Columna para los productos -->
+        <div class="col-md-8" id="productos"></div>
+        
+        <!-- Columna para el carrito -->
+        <div class="col-md-4">
+          <h2>Lista de Compra</h2>
+          <ul id="lista-compra"></ul>
+          <div id="resumen-totalizador"></div>
+          <button id="boton-pagar">Pagar</button>
+          <div id="tabla-detalles"></div>
+        </div>
+      </div>
+      
+      <!-- Botón "Agregar a la compra" -->
       <button id="agregar-compra" class="btn btn-primary mt-3">Agregar a la compra</button>
-      <h2>Lista de Compra</h2>
-      <ul id="lista-compra"></ul>
-      <div id="resumen-totalizador"></div>
-
- 
-
     </div>
+    
+    
     
   </main>
   <footer>

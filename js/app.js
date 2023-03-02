@@ -79,7 +79,7 @@ let listaProductos = document.getElementById("productos");
 // recorre productos con forEach
 productos.forEach(producto => {
   let div = document.createElement("div");
-  div.className = "col-md-4 mb-3";
+  div.className = "col-md-4 mb-3 xs-12";
   let card = document.createElement("div");
   card.className = "card";
   let img = document.createElement("img");
@@ -162,10 +162,13 @@ productos.forEach(producto => {
     };
     productosSeleccionados.push(productoSeleccionado);
     let li = document.createElement("li");
+
     let nombre = document.createElement("span");
     nombre.innerText = productoSeleccionado.nombre;
+
     let cantidadSpan = document.createElement("span");
     cantidadSpan.innerText = `x ${productoSeleccionado.cantidad}`;
+    
     let totalSpan = document.createElement("span");
     totalSpan.innerText = `= $${productoSeleccionado.total}`;
     let eliminarButton = document.createElement("button");
@@ -200,7 +203,68 @@ productos.forEach(producto => {
     if (total < 100000) {
     despacho = total * 0.05;
     }
-    resumenTotalizador.innerHTML = `<p>Subtotal: $${subtotal}</p> <p>IVA: $${iva}</p> <p>Despacho: $${despacho}</p> <h3>Total: $${(total + despacho)}</h3>`;
-    }
-    
-    
+    resumenTotalizador.innerHTML = `
+  <table class="table">
+    <tbody>
+      <tr>
+        <td>Subtotal:</td>
+        <td>$${subtotal}</td>
+      </tr>
+      <tr>
+        <td>IVA:</td>
+        <td>$${iva}</td>
+      </tr>
+      <tr>
+        <td>Despacho:</td>
+        <td>$${despacho}</td>
+      </tr>
+      <tr>
+        <td><strong>Total:</strong></td>
+        <td><strong>$${(total + despacho)}</strong></td>
+      </tr>
+    </tbody>
+  </table>
+`;
+
+  }
+
+    // Obtenemos el elemento de la tabla y el botón de pagar
+  let tablaDetalles = document.getElementById("tabla-detalles");
+  let botonPagar = document.getElementById("boton-pagar");
+
+  // Agregamos un evento para mostrar los detalles
+  botonPagar.addEventListener("click", function() {
+    // Creamos tabla
+    let filasTabla = "";
+    productosSeleccionados.forEach(function(producto) {
+      filasTabla += `
+        <h3>Detalle de la compra</h3>
+        <tr>
+          <td>${producto.nombre}</td>
+          <td>${producto.cantidad}</td>
+          <td>$${producto.precio}</td>
+          <td>$${producto.total}</td>
+        </tr>
+      `;
+    });
+
+    // Insertamos las filas
+    tablaDetalles.innerHTML = `
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Producto</th>
+            <th>Cantidad</th>
+            <th>Precio Unitario</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${filasTabla}
+        </tbody>
+      </table>
+    `;
+  });
+
+  
+   
