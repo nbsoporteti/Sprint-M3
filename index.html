@@ -23,22 +23,24 @@
       <h1>Lista de Productos</h1>
       
       <!-- Fila para los productos y el carrito -->
-      <div class="row">
+      <div class="row row-cols-1 row-cols-md-3 g-4">
         <!-- Columna para los productos -->
-        <div class="col-md-8" id="productos"></div>
+        <div class="col" id="productos"></div>
+        <!-- Botón "Agregar a la compra" -->
+      
         
         <!-- Columna para el carrito -->
-        <div class="col-md-4">
+        <div class="col">
           <h2>Lista de Compra</h2>
           <ul id="lista-compra"></ul>
           <div id="resumen-totalizador"></div>
-          <button id="boton-pagar">Pagar</button>
+          <button id="limpiar-carrito" class="btn btn-primary">Vaciar Carrito</button>
+          <button id="boton-pagar" class="btn btn-primary">Pagar</button>
           <div id="tabla-detalles"></div>
         </div>
       </div>
       
-      <!-- Botón "Agregar a la compra" -->
-      <button id="agregar-compra" class="btn btn-primary mt-3">Agregar a la compra</button>
+      
     </div>
     
     
