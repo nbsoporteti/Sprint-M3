@@ -71,8 +71,10 @@
       precio: 1250000
     }
   ];
-
-
+  // Función para buscar un producto por su código
+  function buscarProductoPorCodigo(codigo) {
+  return productos.find(producto => producto.codigo === codigo);
+  }
   // Obtenemos div y los productos
   let listaProductos = document.getElementById("productos");
 
@@ -120,11 +122,11 @@
       }
     });
     let botonAgregar = document.createElement("button");
-    botonAgregar.id = 'agregar-compra';
     botonAgregar.type = "button";
     botonAgregar.classList = "btn btn-primary";
     botonAgregar.innerText = "Agregar al carrito";
-    //Enviamos información al div se puede realizar en el codigo de arriba tambien
+    botonAgregar.setAttribute("data-codigo", producto.codigo); // Agregar atributo data-codigo
+    
     let cardFooter = document.createElement("div");
     cardFooter.classList = "card-footer";
     cardFooter.appendChild(cantidadLabel);
@@ -153,46 +155,46 @@
     let productosSeleccionados = [];
     
     //evento click
-    agregarCompra.addEventListener("click", () => {
-    // Recorrer la lista de productos y agrega
-    for (let i = 0; i < listaProductos.children.length; i++) {
-    let producto = productos[i];
-    let cantidad = listaProductos.children[i].querySelector("input[type='number']").value;
-    let seleccionado = listaProductos.children[i].querySelector("input[type='checkbox']").checked;
-    if (seleccionado) {
-    let productoSeleccionado = {
-    nombre: producto.nombre,
-    cantidad: cantidad,
-    precio: producto.precio,
-    total: producto.precio * cantidad
-    };
-    productosSeleccionados.push(productoSeleccionado);
-    let li = document.createElement("li");
-
-    let nombre = document.createElement("span");
-    nombre.innerText = productoSeleccionado.nombre;
-
-    let cantidadSpan = document.createElement("span");
-    cantidadSpan.innerText = `x ${productoSeleccionado.cantidad}`;
+    window.addEventListener("load", () => {
+      // Seleccionar todos los botones "Agregar al carrito"
+      let botonesAgregar = document.querySelectorAll(".btn.btn-primary");
     
-    let totalSpan = document.createElement("span");
-    totalSpan.innerText = `= $${productoSeleccionado.total}`;
-    let eliminarButton = document.createElement("button");
-    eliminarButton.innerText = "Eliminar";
-    eliminarButton.addEventListener("click", () => {
-    let indice = productosSeleccionados.indexOf(productoSeleccionado);
-    productosSeleccionados.splice(indice, 1);
-    li.remove();
-    actualizarResumenTotalizador();
-    });
-    li.appendChild(nombre);
-    li.appendChild(cantidadSpan);
-    li.appendChild(totalSpan);
-    li.appendChild(eliminarButton);
-    listaCompra.appendChild(li);
-    }
-    }
-    actualizarResumenTotalizador();
+      // Agregar evento click a cada botón
+      botonesAgregar.forEach((botonAgregar) => {
+        botonAgregar.addEventListener("click", () => {
+          let codigoProducto = botonAgregar.getAttribute("data-codigo");
+          let producto = buscarProductoPorCodigo(codigoProducto);
+          let cantidad = botonAgregar.parentElement.querySelector("input[type='number']").value;
+          let productoSeleccionado = {
+            nombre: producto.nombre,
+            cantidad: cantidad,
+            precio: producto.precio,
+            total: producto.precio * cantidad
+          };
+          productosSeleccionados.push(productoSeleccionado);
+          let li = document.createElement("li");
+          let nombre = document.createElement("span");
+          nombre.innerText = productoSeleccionado.nombre;
+          let cantidadSpan = document.createElement("span");
+          cantidadSpan.innerText = `x ${productoSeleccionado.cantidad}`;
+          let totalSpan = document.createElement("span");
+          totalSpan.innerText = `= $${productoSeleccionado.total}`;
+          let eliminarButton = document.createElement("button");
+          eliminarButton.innerText = "Eliminar";
+          eliminarButton.addEventListener("click", () => {
+            let indice = productosSeleccionados.indexOf(productoSeleccionado);
+            productosSeleccionados.splice(indice, 1);
+            li.remove();
+            actualizarResumenTotalizador();
+          });
+          li.appendChild(nombre);
+          li.appendChild(cantidadSpan);
+          li.appendChild(totalSpan);
+          li.appendChild(eliminarButton);
+          listaCompra.appendChild(li);
+          actualizarResumenTotalizador();
+        });
+      });
     });
     
     // Función para actualizar el resumen del totalizador
@@ -254,7 +256,7 @@
   let tablaDetalles = document.getElementById("tabla-detalles");
   let botonPagar = document.getElementById("boton-pagar");
   
-
+//Simula la boleta
   botonPagar.addEventListener("click", function() {
     let filasTabla = "";
     let productosAgrupados = {};
@@ -315,5 +317,5 @@
     `;
   });
 
+ 
   
-   
